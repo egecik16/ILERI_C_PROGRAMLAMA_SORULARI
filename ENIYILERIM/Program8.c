@@ -1,58 +1,47 @@
-#include<stdio.h>
+#include <stdio.h>
+
+void ask_question(double *var, double min, double max, char *question, char *fail_text)
+{
+    printf("%s\n", question);
+    scanf("%lf", var);
+    while (*var > max && *var < min)
+    {
+        printf("%s\n", fail_text);
+        scanf("%lf", var);
+    }
+}
+
 int main()
 {
 
-
-    double saatlikucret;
+    double saatlikucret = 7;
     double calisilangunsayisi;
     double gundecalisilansaat;
     double aylikkazanc;
 
+    ask_question(&gundecalisilansaat, 1, 24, "kac saat calisiyorsunuz?", "lutfen gecerli bir saat dilimi giriniz");
+    ask_question(&calisilangunsayisi, 1, 31, "ayda kac gun calisiyorsunuz", "lutfen gecerli gun sayisi giriniz");
 
-saatcalisma:
+    aylikkazanc = saatlikucret * gundecalisilansaat * calisilangunsayisi;
+    double limits[] = {500, 700, 1000, 1500};
+    int n = sizeof(limits) / sizeof(limits[0]);
+    double rates[] = {0,
+                      .05,
+                      .07,
+                      .1,
+                      .13};
 
-     printf("kac saat calisiyorsunuz?\n");
-     scanf("%lf",&gundecalisilansaat);
-     if(gundecalisilansaat>24){
-        printf("lutfen gecerli bir saat dilimi giriniz\n");
-        goto saatcalisma;}
-     printf("saat basina kac para aliyorsunuz?\n");
-     scanf("%lf",&saatlikucret);
-     aylikcalisma:
-     printf("ayda kac gun calisiyorsunuz ?\n");
-     scanf("%lf",&calisilangunsayisi);
-      if(calisilangunsayisi>31)
+    int i = 0;
+    for (; i < n; i++)
+    {
+        if (aylikkazanc < limits[i])
         {
-            printf("lutfen gecerli gun sayisi giriniz\n");
-            goto aylikcalisma;
+            double verilenvergi = aylikkazanc * rates[i];
+            printf("aylik verilen vergi parasi %.20g tl\n", verilenvergi);
+            break;
         }
+    }
 
-    aylikkazanc=saatlikucret*gundecalisilansaat*calisilangunsayisi;
-
-     if(aylikkazanc<500)
-
-        {
-     double verilenvergi=0;
-        printf("aylik verilen vergi parasi %.20g tl\n",verilenvergi);
-        }
-     else
-        if(aylikkazanc>500&&aylikkazanc<700){
-        double verilenvergi=aylikkazanc*1/5;
-     printf("aylik verilen vergi parasi:%.20g tl\n",verilenvergi);}
-     else
-        if(aylikkazanc>700&&aylikkazanc<1000){
-        double verilenvergi=aylikkazanc*7/100;
-        printf("aylik verilen vergi parasi :%.20g tl\n",verilenvergi);}
-     else
-        if(aylikkazanc>1000&&aylikkazanc<1500){
-        double verilenvergi=aylikkazanc/10;
-        printf("verilen vergi parasi :%.20g tl",verilenvergi);}
-     else
-        if(aylikkazanc>1500){
-
-        double verilenvergi=aylikkazanc*13/100;
-     printf("aylik verilen vergi parasi %5.0f tl\n",verilenvergi);
-}
-printf("aylik %.20g tl kazaniyorsunuz",aylikkazanc);
-     return 0;
+    printf("aylik %.20g tl kazaniyorsunuz", aylikkazanc);
+    return 0;
 }
